@@ -75,8 +75,18 @@ func (p *Products) MiddlewareValidateProduct(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		product := data.Product{}
 
+		// parse JSON
 		err := product.FromJSON(req.Body)
 		if err != nil {
+			p.log.Println("[ERROR] deserializing the product", err)
+			http.Error(rw, err.Error(), http.StatusBadRequest)
+			return
+		}
+
+		// validate the product
+		err = product.Validate()
+		if err != nil {
+			p.log.Println("[ERROR] validating the product", err)
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return
 		}

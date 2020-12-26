@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/olegnikitashin/simple_server/handlers"
+	"github.com/olegnikitashin/products_api/handlers"
 )
 
 func main() {
